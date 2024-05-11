@@ -1,0 +1,104 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+ <!-- [ Main Content ] start -->
+ <div class="row">
+    <!--[ Título ] start-->
+    <div class="col-xl-8 col-md-6">
+        <div class="card Recent-Users">
+          <!-- Cabecera de la tarjeta -->
+          <div class="card-header">
+            <h2>Materias</h2> <!-- Título  -->
+          </div>
+        </div>
+      </div>
+      <!--[ Título ] end-->
+      <!-- Cuerpo de la tarjeta -->
+      <div class="row">
+        {% for materia in materias %}
+        <div class="col-xl-4 col-md-6 mb-4">
+          <div class="card">
+            <img src="{{ materia.profile_picture.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ materia.nombre }}</h5>
+              <p class="card-text">{{ materia.info }}</p>
+              <a href="{% url 'detalle_materia' materia.id %}" class="btn btn-primary acceder-btn">Acceder</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+<!-- Detalles de la materia seleccionada -->
+      {% if materia %}
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Detalles de la Materia</h5>
+          </div>
+          <div class="card-block table-border-style">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th>Información</th>
+                    <td>{{ materia.info }}</td>
+                  </tr>
+                  <tr>
+                    <th>Profesor</th>
+                    <td>{{ materia.profesor }}</td>
+                  </tr>
+                  <tr>
+                    <th>Horarios de Clase</th>
+                    <td>
+                      <ul>
+                        {% for horario in materia.horarios_clase.all %}
+                        <li>{{ horario.dia_semana }} - {{ horario.hora_inicio|time:"H:i" }} a {{ horario.hora_fin|time:"H:i" }}</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Materiales Educativos</th>
+                    <td>
+                      <ul>
+                        {% for material in materia.materiales_educativos.all %}
+                        <li>{{ material.nombreMaterial }} - <a href="{{ material.archivo.url }}">{{ material }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                  </tr>
+                  <!-- Agrega aquí cualquier otra fila de la tabla para más detalles -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+
+
+
+
+
+    
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+        $(".acceder-btn").click(function(){
+            var materiaId = $(this).data("materia-id");
+            // Realiza una solicitud AJAX para obtener la información adicional de la materia
+            $.ajax({
+                url: "/bc_carreras/" + materiaId,
+                success: function(response){
+                    $("#materia-info").html(response);
+                }
+            });
+        });
+    });
+    </script>
+{% endblock content %}

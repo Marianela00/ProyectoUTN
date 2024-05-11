@@ -1,0 +1,130 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+<!-- [ Main Content ] start -->
+  <div class="row">
+
+    <!--[ Título ] start-->
+    <div class="col-xl-8 col-md-6">
+      <div class="card Recent-Users">
+        <!-- Cabecera de la tarjeta -->
+        <div class="card-header">
+          <h2>Campus Virtual Nombre</h5> <!-- Título  -->
+        </div>
+      </div>
+    </div>
+    <!--[ Título ] end-->
+
+    <!--[ Carreras ] start-->
+    <div class="col-xl-8 col-md-6">
+      <div class="card Recent-Users">
+        <div class="card-header">
+          <h4>Carreras</h4> <!-- Título  -->
+        </div>
+        <!-- Carreras de la tarjetas -->
+        <div class="row">
+          {% if carrera_asignada %}
+          <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card">
+              <img src="{{ carrera_asignada.profile_picture.url }}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ carrera_asignada.nombre }}</h5>
+                <p class="card-text">{{ carrera_asignada.info }}</p>
+                <a href="{% url 'bc_carreras' %}" class="btn btn-primary">Acceder</a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <!-- Puedes añadir más tarjetas de Carreras aquí -->
+        </div>
+      </div>
+    </div>
+    <!--[ Carreras ] end-->
+
+    <!--[ Descripcion de Usuario ] start-->
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-block">
+          <div class="d-flex align-items-center justify-content-center flex-column">
+            <div class="w-50 p-3">
+                    {% if user_profile.profile_picture %}
+                        <img src="{{ user_profile.profile_picture.url }}" alt="imagen de perfil" class="img-fluid rounded-circle">
+                    {% else %}
+                        <img src="{% static 'assets/images/user/avatar-2.jpg' %}" alt="imagen de perfil predeterminada" class="img-fluid rounded-circle">
+                    {% endif %}
+            </div>
+            <div class="text-center">
+              <h4 class="font-weight-bold h6">{{ user.username }}</h4>
+              <p class="font-italic text-muted">{{ user.userprofile.bio }}</p>
+            </div>
+          </div>
+          <div class="small font-weight-light mt-4 text-center text-muted">
+            <p>Por favor complete su perfil en la brevedad se le asignara una carrera y sus materias</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--[ Descripcion de Usuario ] end-->
+
+    <!-- [ Recent Users ] start -->
+    <div class="col-xl-8 col-md-6">
+      <div class="card Recent-Users">
+        <!-- Cabecera de la tarjeta -->
+        <div class="card-header">
+          <h5>Usuarios Recientes</h5> <!-- Título de la tarjeta -->
+        </div>
+        <!-- Cuerpo de la tarjeta -->
+        <div class="card-block px-0 py-3">
+          <!-- Contenedor de la tabla con desplazamiento -->
+          <div class="table-responsive">
+            <!-- Tabla con formato de tabla hover -->
+            <table class="table table-hover">
+              <tbody>
+                <!-- Inicio del bucle para recorrer la lista de usuarios recientes -->
+                {% for user in superusers_online %}
+                  <tr class="unread"> <!-- Fila de la tabla -->
+                    <!-- Celda de la imagen de perfil del usuario -->
+                    <td><img class="rounded-circle" style="width:40px;" src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'assets/images/user/avatar-2.jpg' %}{% endif %}" alt="usuario"></td>
+                    <!-- Celda de información del usuario -->
+                    <td>
+                      <!-- Nombre de usuario -->
+                      <h6 class="mb-1">{{ user.username }}</h6>
+                      <!-- Biografía del usuario -->
+                      <p class="m-0">{{ user.profile.bio }}</p>
+                    </td>
+                    <!-- Celda de la última fecha de inicio de sesión del usuario -->
+                    <td>
+                      <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>{{ user.last_login }}</h6>
+                    </td>
+                    <!-- Celda de acciones -->
+                    <td>
+                        {% if materia_asignada %}
+                            <!-- Si hay una materia asignada, mostrar el enlace de Zoom -->
+                            <a href="{{ materia_asignada.enlace_zoom }}" class="label theme-bg text-white f-12">Conectarse a Zoom</a>
+                        {% else %}
+                            <!-- Si no hay una materia asignada, mostrar un mensaje de que no hay enlace -->
+                            <span class="text-muted">Sin enlace de Zoom asignado</span>
+                        {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+                
+                <!-- Fin del bucle -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ Recent Users ] end -->
+
+    
+  </div>
+  <!-- [ Main Content ] end -->
+
+{% endblock content %}
+

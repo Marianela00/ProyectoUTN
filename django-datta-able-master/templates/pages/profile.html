@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <!-- [ Contenido Principal ] start -->
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">
+          <h5>Editar Información</h5>
+        </div>
+        <div class="card-block">
+          <!-- Agregar mensaje de advertencia si existe -->
+          {% if messages %}
+            <div class="alert alert-warning" role="alert">
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            </div>
+          {% endif %}
+          
+          <form method="post" action="{% url 'edit_user' %}" class="needs-validation" novalidate enctype="multipart/form-data"> <!-- Agrega el action al formulario y la clase 'needs-validation' para la validación de Bootstrap -->
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-sm-12 mb-4">
+                <div class="form-group">
+                    <label for="{{ user_form.username.id_for_label }}">Nombre de usuario</label>
+                    {{ user_form.username }}
+                    <div class="invalid-feedback">{{ user_form.username.errors }}</div>
+                </div>
+              </div>
+              <div class="col-sm-12 mb-4">
+                <div class="form-group">
+                    <label for="{{ user_form.email.id_for_label }}">Correo Electrónico</label>
+                    {{ user_form.email }}
+                    <div class="invalid-feedback">{{ user_form.email.errors }}</div>
+                </div>
+              </div>
+              <div class="col-sm-12 mb-4">
+                <div class="form-group">
+                    <label for="{{ user_form.first_name.id_for_label }}">Apellido</label>
+                    {{ user_form.first_name }}
+                    <div class="invalid-feedback">{{ user_form.first_name.errors }}</div>
+                </div>
+              </div>
+              <div class="col-sm-12 mb-4">
+                <div class="form-group">
+                    <label for="{{ profile_form.profile_picture.id_for_label }}">Foto de Perfil</label>
+                    {{ profile_form.profile_picture }}
+                    <div class="invalid-feedback">{{ profile_form.profile_picture.errors }}</div>
+                </div>
+              </div>
+              <div class="col-sm-12 mb-4">
+                <div class="form-group">
+                    <label for="{{ profile_form.bio.id_for_label }}">Biografía</label>
+                    {{ profile_form.bio }}
+                    <div class="invalid-feedback">{{ profile_form.bio.errors }}</div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-block">
+          <div class="d-flex align-items-center justify-content-center flex-column">
+            <div class="w-50 p-3">
+                    {% if user_profile.profile_picture %}
+                        <img src="{{ user_profile.profile_picture.url }}" alt="imagen de perfil" class="img-fluid rounded-circle">
+                    {% else %}
+                        <img src="{% static 'assets/images/user/avatar-2.jpg' %}" alt="imagen de perfil predeterminada" class="img-fluid rounded-circle">
+                    {% endif %}
+            </div>
+            <div class="text-center">
+              <h4 class="font-weight-bold h6">{{ user.username }}</h4>
+              <p class="font-italic text-muted">{{ user.userprofile.bio }}</p>
+            </div>
+          </div>
+          <div class="small font-weight-light mt-4 text-center text-muted">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos esse excepturi fugiat id numquam? Enim illo, perferendis. Eum, ratione, voluptas?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- [ Contenido Principal ] end -->
+
+ {% endblock content %}

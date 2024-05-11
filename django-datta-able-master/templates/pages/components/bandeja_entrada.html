@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Bandeja de entrada</h2>
+
+    {% if mensajes %}
+        <ul>
+            <h4>Tienes Nuevos mensajes</h4>
+            {% for mensaje in mensajes %}
+                <li>
+                    <strong>{{ mensaje.remitente }}</strong>:
+                    
+                    <form action="{% url 'responder_y_ver_mensaje' mensaje.id %}" method="get">
+                        <button type="submit" class="btn btn-secondary">Ver mensaje</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes mensajes nuevos.</p>
+    {% endif %}
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<hr>
+
+<h3>Enviar Nuevo Mensaje</h3>
+<form action="{% url 'enviar_mensaje' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="destinatario">Destinatario:</label>
+        <select class="form-control" name="destinatario" id="destinatario">
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.username }}">{{ usuario.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="contenido">Mensaje:</label>
+        <textarea class="form-control" name="contenido" id="contenido" placeholder="Mensaje..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{% endblock content %}

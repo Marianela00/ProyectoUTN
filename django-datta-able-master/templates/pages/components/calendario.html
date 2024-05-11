@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<div class="row">
+  <div class="col-sm-12">
+    <div id='calendar'></div>
+  </div>
+</div>
+<!-- [ Main Content ] end -->
+
+<script>
+    const getHorariosClaseURL = '{% url "get_horarios_clase" %}';
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script src="{% static 'assets/js/calendario.js' %}"></script>
+
+{% endblock extra_js %}

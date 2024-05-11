@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load i18n static admin_datta %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_direction as direction %}
+{% get_admin_setting as admin_setting %}
+<html lang="en">
+<head>
+  {% include 'includes/head.html' %} <!-- Incluye el encabezado común -->
+  {% block extrastyle %}{% endblock extrastyle %} <!-- Bloque para estilos adicionales -->
+  {% block extrahead %}{% endblock extrahead %} <!-- Bloque para elementos adicionales en la cabeza -->
+</head>
+<body>
+  {% block pre_loader %}
+    {% include 'includes/pre-loader.html' %} <!-- Incluye la animación de precarga -->
+  {% endblock pre_loader %}
+  
+  {% block sidebar %}
+    {% include 'includes/sidebar.html' %} <!-- Incluye la barra lateral -->
+  {% endblock sidebar %}
+
+  {% block header %}
+    {% include 'includes/navigation.html' %} <!-- Incluye la navegación -->
+  {% endblock header %}
+
+  <div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+      <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+          {% block breadcrumbs %}
+            {% include 'includes/breadcrumb.html' %} <!-- Incluye las migas de pan -->
+          {% endblock breadcrumbs %}
+          <div class="main-body">
+            <div class="page-wrapper">
+              {% block content %}{% endblock content %} <!-- Bloque principal de contenido -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'includes/scripts.html' %} <!-- Incluye los scripts comunes -->
+  {% block extra_js %}{% endblock extra_js %} <!-- Bloque para scripts adicionales -->
+</body>
+</html>

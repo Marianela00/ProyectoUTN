@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Mensaje</h2>
+    <div class="chat-container">
+        <ul class="chat">
+            <li class="{% if mensaje.emisor == request.user %}self{% else %}other{% endif %}">
+                <div class="msg">
+                    <strong>{{ mensaje.emisor }}</strong>: {{ mensaje.contenido }}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <hr>
+    <h3>Responder al mensaje</h3>
+    <form method="post" action="{% url 'responder_y_ver_mensaje' mensaje.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="contenido">Respuesta:</label>
+            <textarea class="form-control" name="contenido" id="contenido" placeholder="Escribe tu respuesta aquí..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar respuesta</button>
+    </form>
+</div>
+{% endblock content %}
